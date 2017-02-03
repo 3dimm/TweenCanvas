@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="stylesheets/style.css" rel="stylesheet">
+    <title>01_animation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenLite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/easing/EasePack.min.js"></script>
+    <script src="javascripts/TweenCanvas.js"></script>
+  </head>
+  <body>
+    <select name="blendmode" onchange="setBlendMode(this.value);">
+      <option value="">standard</option>
+      <option value="difference">difference</option>
+      <option value="multiply">multiply</option>
+      <option value="screen">screen</option>
+      <option value="overlay">overlay</option>
+      <option value="darken">darken</option>
+      <option value="lighter" selected>lighter</option>
+      <option value="color-dodge">color-dodge</option>
+      <option value="color-burn">color-burn</option>
+      <option value="hard-light">hard-light</option>
+      <option value="soft-light">soft-light</option>
+      <option value="exclusion">exclusion</option>
+      <option value="hue">hue</option>
+      <option value="saturation">saturation</option>
+      <option value="color">color</option>
+      <option value="luminosity">luminosity</option>
+    </select>
+  </body>
+  <script>
+    var numParticles=20;
+    var particles = [];
+    var myCanvas = TweenCanvas.create(400,400,'#828282');
+    document.body.appendChild(myCanvas);
+    
+    for (var i=0; i<numParticles;i++) {
+        var p = TweenCanvas.createObject({
+            x:200,
+            y:200,
+            scaleX:0,
+            scaleY:0,
+            arcObj:{
+                radius:50,
+                startAngle:0,
+                endAngle:360,
+                fill:{color:randomColor()}
+            },
+            blendmode:'lighter'
+        });
+        particles.push(p);
+    }
+      
+    TweenCanvas.preload(start);
+    
+    function start() {
+        TweenCanvas.start();
+        for (var i=0; i<particles.length;i++) {
+            startParticles(particles[i],i);
+        }
+    }
+    
+    function startParticles(obj,i) {
+        TweenLite.set(obj,{x:200,y:200,scaleX:0,scaleY:0,alpha:0.5});
+        TweenLite.to(obj,2,{x:200+(Math.random()*200-100),y:200+(Math.random()*200-100),scaleX:2,scaleY:2,alpha:0,rotation:Math.random*180-90, delay:0.1*i, onComplete:startParticles, onCompleteParams:[obj]});
+    }
+    
+    function setBlendMode(mode) {
+        for (var i=0; i<particles.length;i++) {
+            particles[i].blendmode=mode;
+        }
+    }
+    
+    function randomColor() {
+      var color='#'+(Math.random()*0xFFFFFF<<0).toString(16);
+      return color;
+    }
+  </script>
+</html>

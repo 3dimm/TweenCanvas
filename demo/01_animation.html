@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="stylesheets/style.css" rel="stylesheet">
+    <title>01_animation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenLite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/easing/EasePack.min.js"></script>
+    <script src="javascripts/TweenCanvas.js"></script>
+  </head>
+  <body></body>
+  <script>
+    var myCanvas = TweenCanvas.create(400,400,'black');
+    document.body.appendChild(myCanvas);
+    
+    var bg = TweenCanvas.createObject({
+        imageObj:{
+            url:"images/myBg.jpg"
+        }
+    });
+    
+    var pointObject = TweenCanvas.createObject({
+        x:150,
+        y:150,
+        pointObj:{
+            points:[[0,0],[100,0],[100,100],[0,100]]
+        }
+    });
+      
+    TweenCanvas.preload(start);
+    
+    function start() {
+        TweenCanvas.start();
+        animate();
+    }
+      
+    function animate() {
+        console.log(pointObject);
+        TweenLite.to(pointObject,2,{scaleX:2,scaleY:2,rotation:90,ease:Power2.easeIn});
+        TweenLite.to(pointObject,2,{scaleX:1,scaleY:1,rotation:0,ease:Power2.easeOut,delay:2,onComplete:animate});
+    }
+  </script>
+</html>

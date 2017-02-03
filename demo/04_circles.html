@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="stylesheets/style.css" rel="stylesheet">
+    <title>04_circles</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenLite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/easing/EasePack.min.js"></script>
+    <script src="javascripts/TweenCanvas.js"></script>
+  </head>
+  <body></body>
+  <script>
+    var tweenTime=3;
+    var stageWidth = 400;
+    var stageHeight = 400;
+    var numObjs=80;
+    var objs = [];
+    
+    var myCanvas = TweenCanvas.create(stageWidth,stageHeight,'black');
+    document.body.appendChild(myCanvas);
+    
+    var txtObj = TweenCanvas.createObject({
+      x:15,
+      y:20,
+      alpha:0,
+      textObj:{
+        text:"TweenCanvas",
+        font:'Oswald',
+        fontSize:30,
+        lineHeight:30,
+        fill:{
+          color:'white'
+        }
+      }
+    });
+    
+    for (var i=0; i<numObjs; i++) { 
+        var p = TweenCanvas.createObject({
+          x:stageWidth/2,
+          y:stageHeight/2,
+          arcObj:{
+            radius:i*5,
+            startAngle:0,
+            endAngle:0,
+            stroke:{
+              color:randomColor(),
+              width:4
+            }
+          }
+        });
+        objs.push(p);
+    }
+    
+    function startAnimation() {
+        TweenCanvas.start();
+        TweenLite.to(txtObj,1,{
+          alpha:1
+        });
+        for (var i=0; i<objs.length; i++) {
+            tweenObj(objs[i],i);
+        }   
+    }
+    
+    function tweenObj(obj,i) {
+        TweenLite.to(obj.arcObj,tweenTime,{
+          startAngle:Math.random()*180-90,
+          endAngle:180, 
+          delay:0.1*i,
+          ease:Power2.easeInOut
+        });
+    
+        TweenLite.to(obj.arcObj,tweenTime,{
+          startAngle:0,
+          endAngle:0,
+          delay:tweenTime+0.1*i,
+          ease:Power2.easeInOut,
+          onComplete:tweenObj,
+          onCompleteParams:[obj]
+        });
+    }
+    
+    function randomColor() {
+      var color='#'+(Math.random()*0xFFFFFF<<0).toString(16);
+      return color;
+    }
+    
+    TweenCanvas.preload(startAnimation);
+  </script>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="stylesheets/style.css" rel="stylesheet">
+    <title>01_animation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenLite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/easing/EasePack.min.js"></script>
+    <script src="javascripts/TweenCanvas.js"></script>
+  </head>
+  <body></body>
+  <script>
+    var myCanvas = TweenCanvas.create(400,400,'black');
+    document.body.appendChild(myCanvas);
+    
+    var bg = TweenCanvas.createObject({
+        imageObj:{
+            url:"images/myBg.jpg"
+        }
+    });
+    
+    textObject01 = TweenCanvas.createObject({
+        alpha:1,
+        textObj:{
+            text:"TweenCanvas",
+            font:'Oswald',
+            fontSize:280
+            }
+        });
+        
+    textObject02 = TweenCanvas.createObject({
+        alpha:1,
+        textObj:{
+            text:"TweenCanvas",
+            font:'Oswald',
+            fontSize:280,
+            fill:null,
+            stroke:{color:'white',width:4}
+            }
+        });
+        
+    TweenCanvas.setMask(bg,textObject01);
+    TweenCanvas.setMask(bg,textObject02);
+      
+    TweenCanvas.preload(start);
+    
+    function start() {
+        TweenCanvas.start();
+        animate();
+    }
+      
+    function animate() {
+        TweenLite.fromTo(textObject01,5,{x:-textObject01.textObj.textWidth},{x:400,ease:Power2.easeInOut});
+        TweenLite.fromTo(textObject01,5,{x:400},{x:-textObject01.textObj.textWidth,ease:Power2.easeInOut,delay:5});
+        TweenLite.fromTo(textObject02,5,{x:400},{x:-textObject02.textObj.textWidth,ease:Power2.easeInOut});
+        TweenLite.fromTo(textObject02,5,{x:-textObject02.textObj.textWidth},{x:400,ease:Power2.easeInOut,delay:5,onComplete:animate});
+    }
+  </script>
+</html>
