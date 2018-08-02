@@ -22,7 +22,7 @@ Include your preferred tween library. In this example [TweenLite](https://greens
 var myCanvas = TweenCanvas.create(400,400,'black');
 document.body.appendChild(myCanvas);
 
-/* Create Objects as needed */
+/* Create objects as needed */
 
 var bg = TweenCanvas.createObject({
     imageObj:{
