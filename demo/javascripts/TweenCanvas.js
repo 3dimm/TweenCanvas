@@ -47,7 +47,7 @@ var TweenCanvas = {
             window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
             window.cancelAnimationFrame =
             window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
-        };
+        }
 
         if (!window.requestAnimationFrame)
             window.requestAnimationFrame = function(callback, element) {
@@ -326,11 +326,11 @@ var TweenCanvas = {
             this.defaults.ctx.save();
             if (this.defaults.objects[i].mask.length) {
                 this.defaults.tempctx.clearRect(0,0,this.defaults.width,this.defaults.height);
-                this.defaults.objects[i].mask.forEach(function (element, i) { 
+                for (var p=0;p<this.defaults.objects[i].mask.length;p++) {
                     _this.defaults.tempctx.save();
-                    _this.drawObject(element,_this.defaults.tempctx);
+                    _this.drawObject(this.defaults.objects[i].mask[p],_this.defaults.tempctx);
                     _this.defaults.tempctx.restore();
-                }); 
+                }
                 if (this.defaults.objects[i].invertMask) this.defaults.tempctx.globalCompositeOperation="source-out";
                 else this.defaults.tempctx.globalCompositeOperation="source-in";
                 this.defaults.tempctx.save();

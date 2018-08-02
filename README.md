@@ -17,8 +17,12 @@ Include your preferred tween library. In this example [TweenLite](https://greens
 ```html
 <script>
 
+/* Initialize and append TweenCanvas */
+
 var myCanvas = TweenCanvas.create(400,400,'black');
 document.body.appendChild(myCanvas);
+
+/* Create Objects as needed */
 
 var bg = TweenCanvas.createObject({
     imageObj:{
@@ -34,9 +38,14 @@ var pointObject = TweenCanvas.createObject({
     }
 });
 
+/* Wait for images/fonts being loaded */
+
 TweenCanvas.preload(startAnimation);
 
+/* Animate object attributes  */
+
 function startAnimation() {
+    TweenCanvas.start();
     TweenLite.to(pointObject,2,{scaleX:2,scaleY:2,rotation:90,ease:Power2.easeIn});
     TweenLite.to(pointObject,2,{scaleX:1,scaleY:1,rotation:0,ease:Power2.easeOut,delay:2,onComplete:startAnimation});
 }
